@@ -17,32 +17,13 @@ import {
   Martini,
   Gem,
 } from "lucide-react";
+import Footer from "./components/Footer";
+import Ornament from "./components/Ornament";
+import MenuItemRow from "./components/MenuItemRow";
+import Hero from "./components/Hero";
+import StickyNav from "./components/StickyNav";
 /* ── Utilitaires ── */
 const fmt = (p) => (p == null ? null : p.toFixed(3));
-
-/* ── Icône Google (Lucide n'a pas de brands) ── */
-function GoogleIcon({ size = 16 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <path
-        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1Z"
-        fill="#4285F4"
-      />
-      <path
-        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23Z"
-        fill="#34A853"
-      />
-      <path
-        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84Z"
-        fill="#FBBC05"
-      />
-      <path
-        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53Z"
-        fill="#EA4335"
-      />
-    </svg>
-  );
-}
 
 /* ── Données du menu ── */
 const sections = [
@@ -753,116 +734,6 @@ const sections = [
 
 /* ── Composants ── */
 
-function Ornament({ small }) {
-  const w = small ? 30 : 50;
-  const d = small ? { width: 4, height: 4 } : null;
-  return (
-    <div className="ornament my-4">
-      <div className="ornament-line" style={{ width: w }} />
-      <div className="ornament-diamond" style={d} />
-      <div className="ornament-line" style={{ width: w }} />
-    </div>
-  );
-}
-
-function MenuItemRow({ item }) {
-  if (item.special && item.subs) {
-    return (
-      <div
-        style={{ padding: "20px", marginBlock: "24px" }}
-        className="special-card bg-noir-card border border-gold/15 rounded-xl p-5 sm:p-7 my-6 scroll-reveal"
-      >
-        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
-          <div className="flex items-center gap-3 flex-wrap">
-            <h3 className="font-display text-xl sm:text-2xl text-gold font-medium">
-              {item.n}
-            </h3>
-            {item.tag && (
-              <span
-                style={{ padding: "4px 8px" }}
-                className="text-[10px] font-body font-semibold tracking-widest uppercase bg-gold/10 text-gold-light px-2.5 py-1 rounded-full border border-gold/20"
-              >
-                {item.tag}
-              </span>
-            )}
-          </div>
-          <span className="font-body text-gold-light font-medium text-lg tracking-wide">
-            {fmt(item.p)}
-          </span>
-        </div>
-        {item.d && (
-          <p
-            style={{ marginBottom: "1.25rem" }}
-            className="text-cream-muted text-sm font-body mb-5 leading-relaxed"
-          >
-            {item.d}
-          </p>
-        )}
-        <div className="space-y-4">
-          {item.subs.map((sub, si) => (
-            <div style={{ paddingTop: "1.5rem" }} key={si}>
-              <p
-                style={{ fontFamily: "Cormorant Garamond, serif" }}
-                className="sub-heading text-gold-dark font-menu text-lg font-semibold mb-2"
-              >
-                {sub.t}
-              </p>
-              <ul style={{ marginTop: "1rem" }} className="space-y-1.5 ml-1">
-                {sub.i.map((line, li) => (
-                  <li
-                    style={{ paddingBlock: "4px" }}
-                    key={li}
-                    className="flex items-start gap-2 text-cream-dark text-sm font-body"
-                  >
-                    <span className="text-gold/40 mt-1.5 text-[6px]">
-                      {/* <i className="fa-solid fa-diamond" /> */}
-                      <Gem size={12} strokeWidth={2} />
-                    </span>
-                    {line}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="menu-row scroll-reveal py-3 border-b border-noir-lighter/60">
-      <div className="flex items-baseline">
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span className="item-name font-menu text-lg sm:text-xl text-cream font-medium transition-colors duration-300 whitespace-nowrap pr-1">
-            {item.n}
-          </span>
-          {item.tag && (
-            <span
-              style={{ padding: "4px 8px" }}
-              className="text-[9px] font-body font-semibold tracking-widest uppercase bg-gold/10 text-gold-light px-2 py-0.5 rounded-full border border-gold/20 shrink-0"
-            >
-              {item.tag}
-            </span>
-          )}
-        </div>
-        <span className="dot-leader" />
-        {item.p != null && (
-          <span className="font-body text-gold font-medium text-sm sm:text-base tracking-wide whitespace-nowrap pl-1">
-            {fmt(item.p)}
-          </span>
-        )}
-      </div>
-      <div className="flex items-center gap-2 flex-wrap mt-1">
-        {item.d && (
-          <p className="text-cream-muted text-xs sm:text-sm font-body leading-relaxed">
-            {item.d}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-}
-
 function SubSection({ sub }) {
   return (
     <div style={{ paddingBlock: "12px" }} className="mb-10">
@@ -934,186 +805,129 @@ function MenuSection({ section }) {
   );
 }
 
-function StickyNav({ sectionIds, activeSection }) {
-  const [scrolled, setScrolled] = useState(false);
+// function Hero() {
+//   return (
+//     <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+//       <div
+//         className="absolute inset-0"
+//         style={{
+//           background:
+//             "radial-gradient(ellipse 60% 50% at 50% 45%, rgba(201,169,110,0.04) 0%, transparent 70%)",
+//         }}
+//       />
+//       <div
+//         className="absolute inset-0"
+//         style={{
+//           background:
+//             "radial-gradient(circle at 20% 80%, rgba(201,169,110,0.02) 0%, transparent 50%)",
+//         }}
+//       />
+//       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-px h-32 bg-linear-to-b from-transparent via-gold/20 to-transparent" />
+//       <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-px h-32 bg-linear-to-b from-transparent via-gold/20 to-transparent" />
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 600);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+//       <div
+//         style={{ display: "flex", flexDirection: "column", gap: "24px" }}
+//         className="relative z-10"
+//       >
+//         <p className="font-body text-cream-muted text-xs sm:text-sm tracking-[0.35em] uppercase mb-6">
+//           Restaurant &amp; Brasserie
+//         </p>
+//         <h1 className="gold-shimmer font-display text-6xl sm:text-8xl lg:text-9xl font-semibold tracking-[0.15em] leading-none mb-6">
+//           MY COCOON
+//         </h1>
+//         <Ornament />
+//         <p className="font-body text-cream-dark text-sm sm:text-base tracking-[0.2em] uppercase mb-2">
+//           Monastir, Tunisie
+//         </p>
+//         <p className="font-body text-gold/60 text-xs tracking-[0.3em] uppercase mt-4">
+//           Menu 2026
+//         </p>
+//       </div>
 
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const offset = 70;
-      const y = el.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  };
+//       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-indicator">
+//         <ChevronDown className=" text-gold/40 text-sm" size={32} />
+//       </div>
+//     </header>
+//   );
+// }
 
-  return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-[150] transition-all duration-500 ${scrolled ? "bg-noir/90 backdrop-blur-xl border-b border-gold/10 shadow-lg shadow-black/30" : "bg-transparent"}`}
-      role="navigation"
-      aria-label="Navigation du menu"
-    >
-      <div
-        className="nav-scroll flex items-center gap-1 sm:gap-2 overflow-x-auto px-4 sm:px-6 py-3 max-w-6xl mx-auto no-scrollbar"
-        style={{
-          scrollbarWidth: "none",
-          msOverflowStyle: "none",
-          padding: "12px 0",
-          width: "100dvw",
-          overflow: "scroll",
-        }}
-      >
-        {sectionIds.map((s) => (
-          <button
-            style={{
-              display: "flex",
-              padding: "12px",
-              gap: "22px",
-              fontFamily: "Inter', sans-serif",
-              fontSize: "14px",
-              fontWeight: 600,
-            }}
-            key={s.id}
-            onClick={() => scrollTo(s.id)}
-            className={`nav-link whitespace-nowrap text-xs sm:text-sm font-body font-medium tracking-wide px-2 sm:px-3 py-1.5 rounded-md transition-colors duration-300 ${activeSection === s.id ? "active text-gold" : "text-cream-muted hover:text-cream"}`}
-            aria-current={activeSection === s.id ? "true" : "false"}
-          >
-            {s.title}
-          </button>
-        ))}
-      </div>
-    </nav>
-  );
-}
+// function Footer() {
+//   return (
+//     <footer
+//       style={{ marginBlock: "64px 32px" }}
+//       className="relative mt-16 border-t border-gold/10"
+//     >
+//       <div
+//         style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+//         className="max-w-4xl mx-auto px-4 py-16 text-center"
+//       >
+//         <Ornament />
+//         <p className="font-display text-2xl sm:text-3xl text-cream font-medium tracking-wide mb-3">
+//           MY COCOON
+//         </p>
+//         <p className="font-body text-cream-muted text-sm mb-8">
+//           Monastir, Tunisie
+//         </p>
 
-function Hero() {
-  return (
-    <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 45%, rgba(201,169,110,0.04) 0%, transparent 70%)",
-        }}
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 20% 80%, rgba(201,169,110,0.02) 0%, transparent 50%)",
-        }}
-      />
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-px h-32 bg-linear-to-b from-transparent via-gold/20 to-transparent" />
-      <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-px h-32 bg-linear-to-b from-transparent via-gold/20 to-transparent" />
+//         <div
+//           style={{
+//             display: "flex",
+//             flexDirection: "column",
+//             padding: "24px 64px",
+//             alignItems: "center",
+//             justifyContent: "center",
+//           }}
+//           className="bg-noir-card border border-gold/15 rounded-xl p-6 sm:p-8 max-w-md mx-auto mb-10"
+//         >
+//           <div style={{ display: "flex", gap: "8px" }}>
+//             <Star
+//               className="fa-solid fa-star text-gold text-lg mb-3 block"
+//               size={18}
+//               fill="currentColor"
+//             />
+//             <Star
+//               className="fa-solid fa-star text-gold text-lg mb-3 block"
+//               size={18}
+//               fill="currentColor"
+//             />
+//             <Star
+//               className="fa-solid fa-star text-gold text-lg mb-3 block"
+//               size={18}
+//               fill="currentColor"
+//             />
+//           </div>
 
-      <div
-        style={{ display: "flex", flexDirection: "column", gap: "24px" }}
-        className="relative z-10"
-      >
-        <p className="font-body text-cream-muted text-xs sm:text-sm tracking-[0.35em] uppercase mb-6">
-          Restaurant &amp; Brasserie
-        </p>
-        <h1 className="gold-shimmer font-display text-6xl sm:text-8xl lg:text-9xl font-semibold tracking-[0.15em] leading-none mb-6">
-          MY COCOON
-        </h1>
-        <Ornament />
-        <p className="font-body text-cream-dark text-sm sm:text-base tracking-[0.2em] uppercase mb-2">
-          Monastir, Tunisie
-        </p>
-        <p className="font-body text-gold/60 text-xs tracking-[0.3em] uppercase mt-4">
-          Menu 2026
-        </p>
-      </div>
+//           <p className="font-display text-lg text-cream font-medium mb-2">
+//             Votre avis nous est très précieux
+//           </p>
+//           <p className="text-cream-muted text-sm font-body mb-5 leading-relaxed">
+//             Pour améliorer notre service et qualité
+//           </p>
+//           <a
+//             style={{
+//               padding: "4px 8px",
+//               marginTop: "8px",
+//             }}
+//             href="https://www.google.com/search?q=My+Cocoon+Monastir"
+//             target="_blank"
+//             rel="noopener noreferrer"
+//             className="inline-flex items-center gap-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 hover:border-gold/50 text-gold-light font-body text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300"
+//           >
+//             <GoogleIcon />
+//             Google My Cocoon Monastir
+//           </a>
+//         </div>
 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-indicator">
-        <ChevronDown className=" text-gold/40 text-sm" size={32} />
-      </div>
-    </header>
-  );
-}
-
-function Footer() {
-  return (
-    <footer
-      style={{ marginBlock: "64px 32px" }}
-      className="relative mt-16 border-t border-gold/10"
-    >
-      <div
-        style={{ display: "flex", flexDirection: "column", gap: "14px" }}
-        className="max-w-4xl mx-auto px-4 py-16 text-center"
-      >
-        <Ornament />
-        <p className="font-display text-2xl sm:text-3xl text-cream font-medium tracking-wide mb-3">
-          MY COCOON
-        </p>
-        <p className="font-body text-cream-muted text-sm mb-8">
-          Monastir, Tunisie
-        </p>
-
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            padding: "24px 64px",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          className="bg-noir-card border border-gold/15 rounded-xl p-6 sm:p-8 max-w-md mx-auto mb-10"
-        >
-          <div style={{ display: "flex", gap: "8px" }}>
-            <Star
-              className="fa-solid fa-star text-gold text-lg mb-3 block"
-              size={18}
-              fill="currentColor"
-            />
-            <Star
-              className="fa-solid fa-star text-gold text-lg mb-3 block"
-              size={18}
-              fill="currentColor"
-            />
-            <Star
-              className="fa-solid fa-star text-gold text-lg mb-3 block"
-              size={18}
-              fill="currentColor"
-            />
-          </div>
-
-          <p className="font-display text-lg text-cream font-medium mb-2">
-            Votre avis nous est très précieux
-          </p>
-          <p className="text-cream-muted text-sm font-body mb-5 leading-relaxed">
-            Pour améliorer notre service et qualité
-          </p>
-          <a
-            style={{
-              padding: "4px 8px",
-              marginTop: "8px",
-            }}
-            href="https://www.google.com/search?q=My+Cocoon+Monastir"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 hover:border-gold/50 text-gold-light font-body text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300"
-          >
-            <GoogleIcon />
-            Google My Cocoon Monastir
-          </a>
-        </div>
-
-        <p className="text-cream-muted/40 text-xs font-body">
-          Prix en Dinars Tunisiens — Tous les prix sont indicatifs
-        </p>
-        <p className="text-cream-muted/25 text-[10px] font-body mt-2">
-          &copy; 2026 My Cocoon. Tous droits réservés.
-        </p>
-      </div>
-    </footer>
-  );
-}
+//         <p className="text-cream-muted/40 text-xs font-body">
+//           Prix en Dinars Tunisiens — Tous les prix sont indicatifs
+//         </p>
+//         <p className="text-cream-muted/25 text-[10px] font-body mt-2">
+//           &copy; 2026 My Cocoon. Tous droits réservés.
+//         </p>
+//       </div>
+//     </footer>
+//   );
+// }
 
 export default function App() {
   const sectionIds = useMemo(
