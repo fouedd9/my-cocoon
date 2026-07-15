@@ -1059,7 +1059,7 @@ function Footer() {
           style={{
             display: "flex",
             flexDirection: "column",
-            // padding: "24px 64px",
+            padding: "24px 64px",
             alignItems: "center",
             justifyContent: "center",
           }}
