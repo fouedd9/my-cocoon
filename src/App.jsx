@@ -1018,7 +1018,10 @@ function Footer() {
           Monastir, Tunisie
         </p>
 
-        <div className="bg-noir-card border border-gold/15 rounded-xl p-6 sm:p-8 max-w-md mx-auto mb-10">
+        <div
+          style={{ paddingBlock: "14px" }}
+          className="bg-noir-card border border-gold/15 rounded-xl p-6 sm:p-8 max-w-md mx-auto mb-10"
+        >
           <i className="fa-solid fa-star text-gold text-lg mb-3 block" />
           <p className="font-display text-lg text-cream font-medium mb-2">
             Votre avis nous est très précieux
@@ -1027,6 +1030,10 @@ function Footer() {
             Pour améliorer notre service et qualité
           </p>
           <a
+            style={{
+              padding: "4px 8px",
+              marginTop: "8px",
+            }}
             href="https://www.google.com/search?q=My+Cocoon+Monastir"
             target="_blank"
             rel="noopener noreferrer"
