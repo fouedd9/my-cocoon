@@ -836,7 +836,10 @@ function SubSection({ sub }) {
         {sub.title}
       </p>
       {sub.note && (
-        <p className="text-cream-muted text-xs font-body mb-4 italic">
+        <p
+          style={{ paddingBlock: "8px" }}
+          className="text-cream-muted text-xs font-body mb-4 italic"
+        >
           {sub.note}
         </p>
       )}
