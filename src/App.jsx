@@ -1361,7 +1361,7 @@ export default function App() {
       <button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed right-5 bottom-5 z-[100] w-11 h-11 rounded-full border border-gold/30 bg-noir-card text-gold shadow-lg shadow-black/30 flex items-center justify-center transition-all duration-300 cursor-pointer ${
+        className={`fixed right-5 bottom-25 z-[100] w-11 h-11 rounded-full border border-gold/30 bg-noir-card text-gold shadow-lg shadow-black/30 flex items-center justify-center transition-all duration-300 cursor-pointer ${
           showBackTop
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 translate-y-3 pointer-events-none"
