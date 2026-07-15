@@ -835,9 +835,12 @@ function MenuItemRow({ item }) {
 
   return (
     <div className="menu-row scroll-reveal py-3 border-b border-noir-lighter/60">
-      <div className="flex items-baseline">
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span className="item-name font-menu text-lg sm:text-xl text-cream font-medium transition-colors duration-300 whitespace-nowrap pr-1">
+      <div className="flex items-baseline w-full min-w-0 gap-2">
+        <div
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+          className="min-w-0 flex-wrap"
+        >
+          <span className="item-name font-menu text-lg sm:text-xl text-cream font-medium transition-colors duration-300  pr-1">
             {t(item.n, { defaultValue: item.n })}
           </span>
           {item.tag && (
@@ -899,7 +902,7 @@ function MenuSection({ section }) {
   return (
     <section
       id={section.id}
-      className="pt-24 pb-12 px-4 sm:px-6 max-w-4xl mx-auto"
+      className="pt-24 pb-12 px-4 sm:px-6 w-full max-w-4xl mx-auto min-w-0"
     >
       <div
         style={{
@@ -1332,7 +1335,7 @@ export default function App() {
         justifyContent: "center",
         gap: "0px",
       }}
-      className="min-h-screen"
+      className="min-h-screen w-full max-w-full overflow-x-hidden"
     >
       <LanguageSelector />
       <div
