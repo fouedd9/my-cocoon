@@ -56,15 +56,16 @@ const sections = [
         d: "Café ou thé au choix, viennoiserie, jus frais, mini-cheesecake, bouteille d'eau 0,5 L",
       },
       {
-        n: "BRUNCH MY COCOON",
+        n: "LES AMOUREUX",
+        tag: "2 PERSONNES",
         p: 46,
         d: "2 cafés/thés au choix, 2 jus frais, corbeille de viennoiseries, croissant salé, toast sucré, mini-pancake chocolat, 2 omelettes fromage, charcuterie, assortiment pain, gouta, salade de fruits, gâteaux, bouteille d'eau 1 L",
       },
       {
-        n: "LES AMOUREUX",
+        n: "BRUNCH MY COCOON",
         p: 78,
         d: "Un moment convivial inspiré de petits-déjeuners traditionnels et internationaux",
-        tag: "2-3 PERS",
+        tag: "2-3 PERSONNES",
         special: true,
         subs: [
           {
@@ -117,7 +118,7 @@ const sections = [
             d: "Crevettes panées (4 pièces), calamars dorés (4 pièces)",
           },
           { n: "Crevettes sautées à l'ail", p: 30, d: "" },
-          { n: "Moules à la crème", p: 24, d: "" },
+          { n: "Moules à la crème", p: 27, d: "" },
         ],
       },
       {
@@ -130,7 +131,7 @@ const sections = [
           },
           {
             n: "Salade Burrata",
-            p: 29,
+            p: 24,
             d: "Cœur de laitue, burrata, roquette, tomate cerise, parmesan, crème balsamique",
           },
           {
@@ -158,12 +159,11 @@ const sections = [
     icon: <Star className="text-gold/60 text-sm" />,
     items: [
       { n: "Ojja fruits de mer", p: 30, d: "" },
-      { n: "Ojja merguez", p: 23, d: "Fait maison" },
-      { n: "Complet merguez à la tunisienne", p: 29, d: "" },
+      { n: "Ojja merguez", p: 25, d: "Fait maison" },
       { n: "Couscous d'agneau", p: 40, d: "" },
       { n: "Couscous au poisson", p: 36, d: "" },
       { n: "Couscous au poulpe", p: 46, d: "" },
-      { n: "Couscous végétarien", p: 28, d: "" },
+      { n: "Couscous végétarienne", p: 28, d: "" },
       {
         n: "Couscous royal",
         p: 78,
@@ -175,6 +175,7 @@ const sections = [
         p: 40,
         d: "Riz, sauce rouge, cocktail de fruits de mer",
       },
+      { n: "Complet merguez à la tunisienne", p: 29, d: "" },
     ],
   },
   {
@@ -187,18 +188,33 @@ const sections = [
         items: [
           {
             n: "Suprême de poulet sauce champignons",
-            p: 30,
+            p: 27,
             d: "Champignons frais",
           },
           { n: "Blanc de poulet grillé ou pané", p: 23, d: "Fait maison" },
-          { n: "Cuisse de poulet à l'indienne", p: 27, d: "Fait maison" },
-          { n: "Cordon bleu", p: 26, d: "" },
+          { n: "Cuisse de poulet à l'indienne", p: 23, d: "Fait maison" },
+          { n: "Cordon bleu", p: 26, d: "Fait maison" },
         ],
       },
       {
         title: "Spécialités du Chef My Cocoon",
         items: [
-          { n: "Escalope du chef My Cocoon", p: 32, d: "" },
+          {
+            n: "Escalope du chef My Cocoon",
+            p: 32,
+            d: "Sauce crevettes, gorgonzola",
+          },
+          {
+            n: "Poulet à la provençale",
+            p: 30,
+            d: "Poulet pané, sauce provençale",
+          },
+
+          {
+            n: "Roulade de poulet farci",
+            p: 35,
+            d: "Poulet farci à la ricotta, épinards, fromage maison, sauce mexicaine",
+          },
           {
             n: "Cordon mexicain",
             p: 30,
@@ -206,24 +222,15 @@ const sections = [
           },
           {
             n: "Ballotine de poulet",
-            p: 35,
-            d: "Poulet pané, sauce provençale",
+            p: 32,
+            d: "Poulet farci (crevettes, épinards, fromage) garni avec tagliatelle sauce pesto",
           },
           {
             n: "Poulet farci (saumon et fromage)",
-            p: 30,
-            d: "Poulet farci crevettes, épinards, fromage, garni avec tagliatelle sauce pesto",
-          },
-          {
-            n: "Poulet à la provençale",
-            p: 32,
-            d: "Sauce crevettes, gorgonzola",
-          },
-          {
-            n: "Roulade de poulet farci",
             p: 38,
-            d: "Poulet farci à la ricotta, épinards, fromage maison, sauce mexicaine",
+            d: "",
           },
+
           {
             n: "Panorama de volailles",
             p: 90,
@@ -235,9 +242,9 @@ const sections = [
       {
         title: "Nos Plats Viandes",
         items: [
-          { n: "Entrecôte sauce champignons / 4 poivres", p: 42, d: "" },
+          { n: "Entrecôte grillée", p: 42, d: "" },
+          { n: "Entrecôte sauce champignons / 4 poivres", p: 48, d: "" },
           { n: "Entrecôte sauce moutarde", p: 48, d: "" },
-          { n: "Entrecôte grillée", p: 48, d: "" },
           {
             n: "Foie de veau sauté à notre façon",
             p: 38,
@@ -289,22 +296,22 @@ const sections = [
       {
         n: "Brochette de crevettes grillées",
         p: 48,
-        d: "Moules à la crème, crevettes panées, calamars croustillants",
+        d: "",
       },
       {
         n: "Assiette dorée de la mer",
         p: 48,
-        d: "Poisson grillé, crevettes (3 pièces), seiche, moules, calamars dorés",
+        d: "Moules à la crème, crevettes panées, calamars croustillants",
       },
       {
         n: "Mixte fruits de mer",
         p: 60,
-        d: "Cocktail riche de fruits de mer avec des garnitures très variées",
+        d: "Poisson grillé, crevettes (3 pièces), seiche, moules, calamars dorés",
       },
       {
         n: "Symphonie fruits de mer",
         p: 139,
-        d: "Le summum de la mer — cocktail riche de fruits de mer, garnitures très variées",
+        d: "Cocktail riche de fruits de mer avec des garnitures très variées",
         tag: "2-3 PERSONNES",
         special: true,
       },
@@ -318,11 +325,11 @@ const sections = [
       {
         title: "Nos Pâtes",
         items: [
-          { n: "Tagliatelle pesto au saumon grillé", p: 38, d: "" },
           { n: "Pâtes végétariennes", p: 23, d: "Sauce au choix, légumes" },
+          { n: "Tagliatelle pesto au saumon grillé", p: 40, d: "" },
           {
             n: "Tagliatelle Royale",
-            p: 40,
+            p: 38,
             d: "Sauce blanche, basilic, crevettes, calamars dorés, parmesan",
           },
           {
@@ -342,7 +349,7 @@ const sections = [
           },
           {
             n: "Rigatoni My Cocoon",
-            p: 30,
+            p: 35,
             d: "Sauce pesto, poulet, champignons, burrata, parmesan",
           },
           {
@@ -392,12 +399,13 @@ const sections = [
         title: "Nos Pâtes Fraîches",
         items: [
           { n: "Ravioli ricotta épinards", p: 30, d: "Sauce épinards" },
+          { n: "Ravioli 4 fromages", p: 32, d: "Sauce fromage" },
           {
             n: "Ravioli 4 saisons",
             p: 34,
             d: "Ricotta, tomates séchées, mozzarella, burrata, sauce rosée",
           },
-          { n: "Ravioli 4 fromages", p: 32, d: "Sauce fromage" },
+
           {
             n: "Ravioli saumon crevettes",
             p: 37,
@@ -612,9 +620,9 @@ const sections = [
       {
         title: "Nos Cafés",
         items: [
-          { n: "Américain", p: 4, d: "" },
-          { n: "Espresso", p: 4.5, d: "" },
-          { n: "Capucin", p: 3.8, d: "" },
+          { n: "Américain", p: 4.5, d: "" },
+          { n: "Espresso", p: 3.8, d: "" },
+          { n: "Capucin", p: 4, d: "" },
           { n: "Café crème / direct", p: 4.8, d: "" },
           { n: "Crème grande tasse", p: 7.8, d: "" },
           { n: "Chocolat au lait", p: 4, d: "" },
@@ -627,21 +635,19 @@ const sections = [
         title: "Nos Thés",
         items: [
           { n: "Thé à la menthe", p: 3.8, d: "" },
-          { n: "Thé infusion", p: 6, d: "" },
-          { n: "Thé aux amandes", p: 5, d: "" },
-          { n: "Thé aux pignons", p: 8.5, d: "" },
-          { n: "Verveine", p: 8.5, d: "" },
-          { n: "Orange", p: 10.5, d: "" },
-          { n: "Orange aux amandes", p: 6.5, d: "" },
+          { n: "Thé infusion", p: 5, d: "" },
+          { n: "Thé aux amandes", p: 8.5, d: "" },
+          { n: "Thé aux pignons", p: 10.5, d: "" },
+          { n: "Verveine", p: 5, d: "" },
         ],
       },
       {
         title: "Nos Mojitos",
         items: [
-          { n: "Virgin", p: 9, d: "" },
+          { n: "Virgin", p: 10, d: "" },
           { n: "Red Berry", p: 13, d: "" },
           { n: "Blue Berry", p: 13, d: "" },
-          { n: "Dragon", p: 18, d: "" },
+          { n: "Dragon", p: 18, d: "à base de boisson énergétique" },
           { n: "Apple", p: 13, d: "" },
           { n: "Passion fruit", p: 14, d: "" },
         ],
@@ -658,14 +664,15 @@ const sections = [
         title: "Nos Jus Frais",
         note: "Selon la disponibilité des produits de saison",
         items: [
-          { n: "Citronnade", p: 5, d: "" },
-          { n: "Citronnade boule de glace", p: 7.5, d: "" },
+          { n: "Citronnade", p: 6, d: "" },
+          { n: "Citronnade - boule de glace", p: 7.5, d: "" },
           { n: "Citronnade aux amandes", p: 8.5, d: "" },
           { n: "Orange", p: 6, d: "" },
-          { n: "Fraise", p: 9, d: "" },
-          { n: "Fraise boule de glace", p: 8, d: "" },
-          { n: "Banane", p: 9.5, d: "" },
-          { n: "Kiwi", p: 13, d: "" },
+          { n: "Orange aux amandes", p: 9, d: "" },
+          { n: "Fraise", p: 8, d: "" },
+          { n: "Fraise boule de glace", p: 9.5, d: "" },
+          { n: "Banane", p: 13, d: "" },
+          { n: "Kiwi", p: 9, d: "" },
           { n: "Fraise-Banane", p: 13, d: "" },
           { n: "Kiwi-Banane", p: 13, d: "" },
           { n: "Mixte fruits", p: 16.8, d: "" },
@@ -675,15 +682,17 @@ const sections = [
         title: "Nos Chocolats Chauds",
         items: [
           { n: "Classique", p: 10, d: "" },
-          { n: "Énergétique", p: 13, d: "À base de boisson énergétique" },
-          { n: "Fruits secs et chantilly", p: 13, d: "" },
+          { n: "Chocolat Fruits secs et chantilly", p: 13, d: "" },
         ],
       },
       {
         title: "Nos Milkshakes",
         items: [
-          { n: "Chocolat classique", p: 10, d: "" },
-          { n: "Au choix", p: 13, d: "" },
+          {
+            n: "Milkshakes au choix",
+            p: 13,
+            d: "(Fraise, Vanille, Caramel, Chocolat)",
+          },
           { n: "Nutella", p: 15, d: "" },
           { n: "Oreo", p: 15, d: "" },
           { n: "Pistache", p: 16, d: "" },
@@ -694,10 +703,8 @@ const sections = [
         items: [
           { n: "Classique", p: 9, d: "" },
           { n: "Affogato", p: 12, d: "Glace vanille et expresso" },
-          { n: "Fraise / Caramel / Vanille / Chocolat", p: 12, d: "" },
-          { n: "Vanille café latte", p: 12, d: "Glace vanille et café latte" },
-          { n: "Moka café latte", p: 12, d: "Glace moka et café latte" },
-          { n: "Liégeois", p: 13, d: "" },
+          { n: "Viennois", p: 12, d: "Glace vanille et café latte" },
+          { n: "Liégeois", p: 12, d: "" },
         ],
       },
       {
@@ -707,10 +714,13 @@ const sections = [
           { n: "Eau gazéifiée 0,5 L", p: 2, d: "" },
           { n: "Eau minérale 1 L", p: 3.5, d: "" },
           { n: "Eau gazéifiée 1 L", p: 3.5, d: "" },
-          { n: "Soda", p: 12, d: "Coca, Fanta, Apla, Boga" },
-          { n: "Boisson énergétique", p: 8, d: "" },
-          { n: "Bière", p: 12, d: "" },
-          { n: "Viennois", p: 12, d: "" },
+          { n: "Soda", p: 3.5, d: "Coca, Fanta, Apla, Boga" },
+          {
+            n: "Boisson énergétique",
+            p: 12,
+            d: "",
+          },
+          { n: "Bière", p: 8, d: "" },
         ],
       },
     ],
