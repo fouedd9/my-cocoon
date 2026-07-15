@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FR, GB, DE } from "country-flag-icons/react/3x2";
+import StickyPartnerBanner from "./components/StickyPartnerBanner";
 import {
   Coffee,
   Leaf,
@@ -1354,6 +1355,8 @@ export default function App() {
       </main>
 
       <Footer />
+
+      <StickyPartnerBanner />
 
       <button
         type="button"
