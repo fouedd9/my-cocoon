@@ -930,7 +930,7 @@ function StickyNav({ sectionIds, activeSection }) {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-150 transition-all duration-500 ${scrolled ? "bg-noir/90 backdrop-blur-xl border-b border-gold/10 shadow-lg shadow-black/30" : "bg-transparent"}`}
+      className={`fixed top-0 left-0 right-0 z-[150] transition-all duration-500 ${scrolled ? "bg-noir/90 backdrop-blur-xl border-b border-gold/10 shadow-lg shadow-black/30" : "bg-transparent"}`}
       role="navigation"
       aria-label="Navigation du menu"
     >
@@ -1007,7 +1007,7 @@ function Hero() {
       </div>
 
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-indicator">
-        <i className="fa-solid fa-chevron-down text-gold/40 text-sm" />
+        <ChevronDown className=" text-gold/40 text-sm" size={32} />
       </div>
     </header>
   );
@@ -1176,17 +1176,16 @@ export default function App() {
       <Footer />
 
       <button
-        id="back-top"
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        className={`fixed right-5 bottom-5 z-50 w-11 h-11 rounded-full border border-gold/30 bg-noir-card text-gold shadow-lg shadow-black/30 transition-all duration-300 ${
+        className={`fixed right-5 bottom-5 z-[100] w-11 h-11 rounded-full border border-gold/30 bg-noir-card text-gold shadow-lg shadow-black/30 flex items-center justify-center transition-all duration-300 cursor-pointer ${
           showBackTop
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 translate-y-3 pointer-events-none"
         }`}
         aria-label="Retour en haut"
       >
-        <i className="fa-solid fa-arrow-up" />
+        <ChevronUp size={18} />
       </button>
     </div>
   );
