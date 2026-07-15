@@ -1,0 +1,1173 @@
+import { useState, useEffect, useMemo } from "react";
+import {
+  Coffee,
+  Leaf,
+  Wheat,
+  UtensilsCrossed,
+  Fish,
+  Soup,
+  Pizza,
+  Cookie,
+  IceCreamCone,
+  Wine,
+  Diamond,
+  ChevronDown,
+  ChevronUp,
+  Star,
+  Martini,
+  Gem,
+} from "lucide-react";
+/* ── Utilitaires ── */
+const fmt = (p) => (p == null ? null : p.toFixed(3));
+
+/* ── Données du menu ── */
+const sections = [
+  {
+    id: "petit-dejeuner",
+    title: "Petit Déjeuner",
+    icon: <Coffee className="text-gold/60 text-sm" />,
+    subtitle:
+      "Un moment convivial inspiré de petits-déjeuners traditionnels et internationaux",
+    items: [
+      {
+        n: "HEALTHY",
+        p: 20,
+        d: "Café ou thé au choix, détox (citronnade, menthe) ou jus frais, verrine de granola, fruits et graines de chia, 2 toasts healthy salés, bouteille d'eau 0,5 L",
+      },
+      {
+        n: "PETIT POUSSIN",
+        p: 14,
+        d: "Menu enfants — Lait, céréales, mini-sandwich, œuf à la coque, jus frais",
+        tag: "KIDS",
+      },
+      {
+        n: "MATIN EXPRESS",
+        p: 10.5,
+        d: "Café ou thé au choix, viennoiserie, jus frais, bouteille d'eau 0,5 L",
+      },
+      {
+        n: "SUPER SALÉ",
+        p: 20,
+        d: "Café ou thé au choix, croissant salé, jus frais, omelette thon-fromage, bouteille d'eau 0,5 L",
+      },
+      {
+        n: "SUPER SUCRÉ",
+        p: 18.5,
+        d: "Café ou thé au choix, viennoiserie, jus frais, mini-cheesecake, bouteille d'eau 0,5 L",
+      },
+      {
+        n: "BRUNCH MY COCOON",
+        p: 46,
+        d: "2 cafés/thés au choix, 2 jus frais, corbeille de viennoiseries, croissant salé, toast sucré, mini-pancake chocolat, 2 omelettes fromage, charcuterie, assortiment pain, gouta, salade de fruits, gâteaux, bouteille d'eau 1 L",
+      },
+      {
+        n: "LES AMOUREUX",
+        p: 78,
+        d: "Un moment convivial inspiré de petits-déjeuners traditionnels et internationaux",
+        tag: "2-3 PERS",
+        special: true,
+        subs: [
+          {
+            t: "Assiette Découverte",
+            i: [
+              "Planche de charcuterie et fromage variée",
+              "2 bruschetta maison",
+              "Salade fraîche et riche",
+            ],
+          },
+          {
+            t: "Plats Chauds",
+            i: ["Omelette à l'espagnol", "Brochette de volaille grillée"],
+          },
+          {
+            t: "Douceur Sucrée",
+            i: [
+              "Fruits de saison au granola et miel",
+              "Crêpe au chocolat",
+              "Fondant au chocolat",
+            ],
+          },
+          {
+            t: "Pain et Boissons",
+            i: [
+              "Pain maison",
+              "2 cafés/thés au choix",
+              "2 jus frais",
+              "Bouteille d'eau 1 L",
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "entrees-salades",
+    title: "Entrées & Salades",
+    icon: <Leaf className="text-gold/60 text-sm" />,
+    subSections: [
+      {
+        title: "Nos Entrées Chaudes",
+        items: [
+          { n: "Brik au thon", p: 7, d: "" },
+          { n: "Brik aux crevettes", p: 8.5, d: "" },
+          { n: "Crème de crevettes", p: 16, d: "" },
+          {
+            n: "Mixte crunchy",
+            p: 29,
+            d: "Crevettes panées (4 pièces), calamars dorés (4 pièces)",
+          },
+          { n: "Crevettes sautées à l'ail", p: 30, d: "" },
+          { n: "Moules à la crème", p: 24, d: "" },
+        ],
+      },
+      {
+        title: "Nos Salades",
+        items: [
+          {
+            n: "Salade César",
+            p: 24,
+            d: "Cœur de laitue, tomate cerise, poulet grillé, fromage blanc, croûtons de pain, maïs, parmesan, sauce César, œuf",
+          },
+          {
+            n: "Salade Burrata",
+            p: 29,
+            d: "Cœur de laitue, burrata, roquette, tomate cerise, parmesan, crème balsamique",
+          },
+          {
+            n: "Salade au saumon fumé",
+            p: 29,
+            d: "Laitue, tomate cerise, saumon fumé, roquette",
+          },
+          {
+            n: "Salade fumoir",
+            p: 28,
+            d: "Laitue, tomate cerise, bacon, fromage cerise, roquette, parmesan, noix, crème balsamique",
+          },
+          {
+            n: "Salade fruits de mer",
+            p: 29,
+            d: "Laitue, tomate, oignon, piment doux, cocktail de fruits de mer",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "gastronomie",
+    title: "Gastronomie Tunisienne",
+    icon: <Star className="text-gold/60 text-sm" />,
+    items: [
+      { n: "Ojja fruits de mer", p: 30, d: "" },
+      { n: "Ojja merguez", p: 23, d: "Fait maison" },
+      { n: "Complet merguez à la tunisienne", p: 29, d: "" },
+      { n: "Couscous d'agneau", p: 40, d: "" },
+      { n: "Couscous au poisson", p: 36, d: "" },
+      { n: "Couscous au poulpe", p: 46, d: "" },
+      { n: "Couscous végétarien", p: 28, d: "" },
+      {
+        n: "Couscous royal",
+        p: 78,
+        d: "3 viandes : côtelette, brochette de poulet, merguez",
+        tag: "2 PERSONNES",
+      },
+      {
+        n: "Riz aux fruits de mer",
+        p: 40,
+        d: "Riz, sauce rouge, cocktail de fruits de mer",
+      },
+    ],
+  },
+  {
+    id: "volailles-chef",
+    title: "Volailles & Spécialités du Chef",
+    icon: <UtensilsCrossed className="text-gold/60 text-sm" />,
+    subSections: [
+      {
+        title: "Nos Plats Volailles",
+        items: [
+          {
+            n: "Suprême de poulet sauce champignons",
+            p: 30,
+            d: "Champignons frais",
+          },
+          { n: "Blanc de poulet grillé ou pané", p: 23, d: "Fait maison" },
+          { n: "Cuisse de poulet à l'indienne", p: 27, d: "Fait maison" },
+          { n: "Cordon bleu", p: 26, d: "" },
+        ],
+      },
+      {
+        title: "Spécialités du Chef My Cocoon",
+        items: [
+          { n: "Escalope du chef My Cocoon", p: 32, d: "" },
+          {
+            n: "Cordon mexicain",
+            p: 30,
+            d: "Cordon bleu garni sur un lit de purée et un jardin de légumes",
+          },
+          {
+            n: "Ballotine de poulet",
+            p: 35,
+            d: "Poulet pané, sauce provençale",
+          },
+          {
+            n: "Poulet farci (saumon et fromage)",
+            p: 30,
+            d: "Poulet farci crevettes, épinards, fromage, garni avec tagliatelle sauce pesto",
+          },
+          {
+            n: "Poulet à la provençale",
+            p: 32,
+            d: "Sauce crevettes, gorgonzola",
+          },
+          {
+            n: "Roulade de poulet farci",
+            p: 38,
+            d: "Poulet farci à la ricotta, épinards, fromage maison, sauce mexicaine",
+          },
+          {
+            n: "Panorama de volailles",
+            p: 90,
+            d: "Cuisse de poulet grillé, cordon bleu (fait maison), brochette de poulet pané, escalope grillée, émincé de poulet sauce champignons, garniture riche et variée, pâtes alfredo, pâtes arrabiata, trio de sauces",
+            tag: "2 PERSONNES",
+          },
+        ],
+      },
+      {
+        title: "Nos Plats Viandes",
+        items: [
+          { n: "Entrecôte sauce champignons / 4 poivres", p: 42, d: "" },
+          { n: "Entrecôte sauce moutarde", p: 48, d: "" },
+          { n: "Entrecôte grillée", p: 48, d: "" },
+          {
+            n: "Foie de veau sauté à notre façon",
+            p: 38,
+            d: "Sauté à l'oignon et fines herbes",
+          },
+          {
+            n: "Grillade mixte viande",
+            p: 40,
+            d: "Escalope grillée, foie, merguez, côtelette, steak, escalope panée",
+          },
+        ],
+      },
+      {
+        title: "Menu Enfants",
+        items: [
+          {
+            n: "Chicken nuggets (6 pièces), frites",
+            p: 20,
+            d: "",
+            tag: "KIDS",
+          },
+          {
+            n: "Pâtes sauce blanche (poulet, fromage)",
+            p: 22,
+            d: "",
+            tag: "KIDS",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "fruits-de-mer",
+    title: "Fruits de Mer",
+    icon: <Fish className="text-gold/60 text-sm" />,
+    items: [
+      { n: "Poisson de jour grillé", p: 29, d: "Dorade ou loup de mer" },
+      {
+        n: "Pavé de saumon My Cocoon",
+        p: 42,
+        d: "Saumon, crevettes et sauce crémeuse au citron",
+      },
+      {
+        n: "Millefeuille de dorade farci",
+        p: 40,
+        d: "Filet de dorade, saumon fumé, sauce aneth, garniture pâtes à l'italienne",
+      },
+      { n: "Seiche à la plancha sauce vierge", p: 44, d: "" },
+      {
+        n: "Brochette de crevettes grillées",
+        p: 48,
+        d: "Moules à la crème, crevettes panées, calamars croustillants",
+      },
+      {
+        n: "Assiette dorée de la mer",
+        p: 48,
+        d: "Poisson grillé, crevettes (3 pièces), seiche, moules, calamars dorés",
+      },
+      {
+        n: "Mixte fruits de mer",
+        p: 60,
+        d: "Cocktail riche de fruits de mer avec des garnitures très variées",
+      },
+      {
+        n: "Symphonie fruits de mer",
+        p: 139,
+        d: "Le summum de la mer — cocktail riche de fruits de mer, garnitures très variées",
+        tag: "2-3 PERSONNES",
+        special: true,
+      },
+    ],
+  },
+  {
+    id: "pates",
+    title: "Pâtes",
+    icon: <Soup className="text-gold/60 text-sm" />,
+    subSections: [
+      {
+        title: "Nos Pâtes",
+        items: [
+          { n: "Tagliatelle pesto au saumon grillé", p: 38, d: "" },
+          { n: "Pâtes végétariennes", p: 23, d: "Sauce au choix, légumes" },
+          {
+            n: "Tagliatelle Royale",
+            p: 40,
+            d: "Sauce blanche, basilic, crevettes, calamars dorés, parmesan",
+          },
+          {
+            n: "Tagliatelle du chef",
+            p: 36,
+            d: "Sauce rosée aux tomates séchées, poulet grillé, pignons, pistaches",
+          },
+          {
+            n: "Rigatoni gamberi et saumon",
+            p: 40,
+            d: "Sauce rosée, crevettes, saumon fumé, basilic, zeste de citron, parmesan",
+          },
+          {
+            n: "Rigatoni maison",
+            p: 38,
+            d: "Sauce blanche, poulet, crevettes, basilic, parmesan",
+          },
+          {
+            n: "Rigatoni My Cocoon",
+            p: 30,
+            d: "Sauce pesto, poulet, champignons, burrata, parmesan",
+          },
+          {
+            n: "Penne Alfredo",
+            p: 30,
+            d: "Sauce blanche, poulet, champignons, quatre fromages",
+          },
+          {
+            n: "Penne 4 fromages",
+            p: 32,
+            d: "Sauce blanche, gruyère, gorgonzola, mozzarella cerise, parmesan",
+          },
+          {
+            n: "Puttanesca",
+            p: 28,
+            d: "Sauce tomate, olives, piment séché, thon, piment de cayenne",
+          },
+          {
+            n: "Spaghetti fruits de mer sauce rouge",
+            p: 38,
+            d: "Sauce rouge, cocktail de fruits de mer",
+          },
+          {
+            n: "Spaghetti bolognaise",
+            p: 28,
+            d: "Sauce rouge, viande hachée, parmesan",
+          },
+          {
+            n: "Lasagne bolognaise",
+            p: 29,
+            d: "Sauce tomate et viande hachée",
+          },
+          {
+            n: "Lasagne fruits de mer",
+            p: 32,
+            d: "Sauce rosée et fruits de mer",
+          },
+          {
+            n: "Paëlla royale",
+            p: 87,
+            d: "Riz, cocktail de fruits de mer, poulet, brochette de poulet, poisson grillé",
+            tag: "2-3 PERSONNES",
+          },
+        ],
+      },
+      {
+        title: "Nos Pâtes Fraîches",
+        items: [
+          { n: "Ravioli ricotta épinards", p: 30, d: "Sauce épinards" },
+          {
+            n: "Ravioli 4 saisons",
+            p: 34,
+            d: "Ricotta, tomates séchées, mozzarella, burrata, sauce rosée",
+          },
+          { n: "Ravioli 4 fromages", p: 32, d: "Sauce fromage" },
+          {
+            n: "Ravioli saumon crevettes",
+            p: 37,
+            d: "Sauce rosée aux crevettes",
+          },
+          { n: "Ravioli viande hachée", p: 28, d: "Sauce bolognaise" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "pizzas",
+    title: "Pizzas",
+    icon: <Pizza className="text-gold/60 text-sm" />,
+    items: [
+      {
+        n: "Margherita",
+        p: 18,
+        d: "Sauce tomate, mozzarella, origan, basilic frais",
+      },
+      {
+        n: "Végétarienne",
+        p: 20,
+        d: "Sauce tomate, mozzarella, légumes grillés, champignons, olives",
+      },
+      { n: "Funghi", p: 22, d: "Sauce tomate, mozzarella, champignons" },
+      { n: "Neptune", p: 22, d: "Sauce tomate, mozzarella, thon, olives" },
+      {
+        n: "Pepperoni",
+        p: 22,
+        d: "Sauce tomate, mozzarella, pepperoni, olive",
+      },
+      {
+        n: "Quatre saisons",
+        p: 26,
+        d: "Sauce tomate, mozzarella, champignons, légumes, thon, jambon, olives",
+      },
+      {
+        n: "Orientale",
+        p: 23,
+        d: "Sauce tomate, mozzarella, merguez, piment doux, oignon",
+      },
+      {
+        n: "Turc",
+        p: 23,
+        d: "Sauce tomate, mozzarella, viande hachée, origan, basilic frais",
+      },
+      {
+        n: "Mexicaine",
+        p: 23,
+        d: "Sauce tomate, mozzarella, poulet sauté, piment piquant, oignon",
+      },
+      {
+        n: "Fruits de mer",
+        p: 30,
+        d: "Sauce tomate, mozzarella, cocktail de fruits de mer",
+      },
+      { n: "Saumon", p: 32, d: "Sauce rosée, mozzarella, saumon fumé, origan" },
+      {
+        n: "Burrata",
+        p: 24,
+        d: "Sauce blanche, mozzarella, burrata, roquette, sauce balsamique",
+      },
+      { n: "Chicken", p: 26, d: "Sauce blanche, mozzarella, poulet, origan" },
+      {
+        n: "Quatre fromages",
+        p: 28,
+        d: "Sauce blanche, mozzarella, gruyère, cheddar, parmesan, fromage cerise",
+      },
+      {
+        n: "Diavola",
+        p: 24,
+        d: "Sauce tomate, mozzarella, bacon, champignon frais, roquette, olives, parmesan",
+      },
+      {
+        n: "Calzone italien",
+        p: 20,
+        d: "Sauce tomate, jambon, œuf, mozzarella",
+      },
+      {
+        n: "Calzone américain",
+        p: 20,
+        d: "Sauce tomate, viande hachée, mozzarella",
+      },
+      {
+        n: "Calzone mexicain",
+        p: 22,
+        d: "Sauce tomate, poulet, œuf, mozzarella",
+      },
+    ],
+    extraSection: {
+      title: "Suppléments",
+      items: [
+        { n: "Saumon fumé", p: 10, d: "" },
+        { n: "Thon / Jambon", p: 8, d: "" },
+        { n: "Burrata", p: 6, d: "" },
+        { n: "Mozzarella", p: 5, d: "" },
+        { n: "Gorgonzola", p: 10, d: "" },
+        { n: "Gruyère", p: 8, d: "" },
+        { n: "Champignons", p: 8, d: "" },
+        { n: "Portion fruit de mer", p: 12, d: "" },
+        { n: "Focaccia", p: 10, d: "Pain au pesto, ail, huile d'olive" },
+        { n: "Portion frites", p: 4, d: "" },
+      ],
+    },
+  },
+  {
+    id: "pauses",
+    title: "Pauses Légères",
+    icon: <Cookie className="text-gold/60 text-sm" />,
+    subSections: [
+      {
+        title: "Crêpes Sucrées",
+        items: [
+          {
+            n: "My Cocoon",
+            p: 18,
+            d: "Au choix : Nutella / Spéculoos / Nutella-Spéculoos",
+          },
+          {
+            n: "Banana Split",
+            p: 24,
+            d: "Nutella, banane, chantilly, crème noisette, glace",
+          },
+          {
+            n: "Tutti frutti",
+            p: 24,
+            d: "Nutella, 3 fruits de saison, fruits secs, chantilly",
+          },
+        ],
+      },
+      {
+        title: "Crêpes Salées",
+        items: [
+          {
+            n: "Mistral",
+            p: 18,
+            d: "Thon, mozzarella, sauce fromagère, salade de saison, harissa au choix",
+          },
+          {
+            n: "Sicilienne",
+            p: 18,
+            d: "Jambon, mozzarella, sauce fromagère, salade de saison",
+          },
+          {
+            n: "Cheesy",
+            p: 20,
+            d: "Mozzarella, gruyère, fromage blanc, sauce fromagère, salade de saison",
+          },
+          {
+            n: "Orientale",
+            p: 18,
+            d: "Poulet, mozzarella, sauce fromagère, sauce pesto, salade de saison",
+          },
+        ],
+      },
+      {
+        title: "Nos Viennoiseries",
+        items: [
+          { n: "Cake maison", p: 4, d: "" },
+          { n: "Croissant au beurre", p: 3, d: "" },
+          { n: "Pain au chocolat", p: 3.5, d: "" },
+          { n: "Croissant aux amandes", p: 4, d: "" },
+          { n: "Croissant salé", p: 5, d: "" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "desserts",
+    title: "Desserts & Glaces",
+    icon: <IceCreamCone className="text-gold/60 text-sm" />,
+    subSections: [
+      {
+        title: "Nos Desserts et Pâtisseries",
+        items: [
+          { n: "Gâteau au choix", p: 10.5, d: "" },
+          { n: "Cheesecake", p: 11.8, d: "" },
+          { n: "Mini-cheesecake", p: 9.5, d: "" },
+          { n: "Fondant au chocolat", p: 9, d: "" },
+          { n: "Fondant boule de glace", p: 14, d: "" },
+          { n: "Salade de fruits", p: 14, d: "" },
+          { n: "Assiette de fruits", p: 22, d: "" },
+        ],
+      },
+      {
+        title: "Nos Glaces",
+        items: [
+          { n: "Coupe (2 boules)", p: 8, d: "" },
+          { n: "Coupe (3 boules)", p: 11, d: "" },
+          { n: "Coupe (4 boules)", p: 15, d: "" },
+          {
+            n: "Coupe Tutti frutti",
+            p: 18,
+            d: "4 boules au choix, fruits de saison",
+          },
+          {
+            n: "Coupe My Cocoon",
+            p: 20,
+            d: "5 boules au choix, fruits de saison, fruits secs, chantilly, chocolat",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "boissons",
+    title: "Boissons",
+    icon: <Martini className="text-gold/60 text-sm" />,
+
+    subSections: [
+      {
+        title: "Nos Cafés",
+        items: [
+          { n: "Américain", p: 4, d: "" },
+          { n: "Espresso", p: 4.5, d: "" },
+          { n: "Capucin", p: 3.8, d: "" },
+          { n: "Café crème / direct", p: 4.8, d: "" },
+          { n: "Crème grande tasse", p: 7.8, d: "" },
+          { n: "Chocolat au lait", p: 4, d: "" },
+          { n: "Cappuccino", p: 8, d: "" },
+          { n: "Dose arôme", p: 3, d: "Supplément" },
+          { n: "Dose menthe", p: 2, d: "" },
+        ],
+      },
+      {
+        title: "Nos Thés",
+        items: [
+          { n: "Thé à la menthe", p: 3.8, d: "" },
+          { n: "Thé infusion", p: 6, d: "" },
+          { n: "Thé aux amandes", p: 5, d: "" },
+          { n: "Thé aux pignons", p: 8.5, d: "" },
+          { n: "Verveine", p: 8.5, d: "" },
+          { n: "Orange", p: 10.5, d: "" },
+          { n: "Orange aux amandes", p: 6.5, d: "" },
+        ],
+      },
+      {
+        title: "Nos Mojitos",
+        items: [
+          { n: "Virgin", p: 9, d: "" },
+          { n: "Red Berry", p: 13, d: "" },
+          { n: "Blue Berry", p: 13, d: "" },
+          { n: "Dragon", p: 18, d: "" },
+          { n: "Apple", p: 13, d: "" },
+          { n: "Passion fruit", p: 14, d: "" },
+        ],
+      },
+      {
+        title: "Nos Frappuccinos",
+        items: [
+          { n: "Vanille / Caramel", p: 14, d: "" },
+          { n: "Oreo", p: 15, d: "" },
+          { n: "Nutella / Spéculoos", p: 16.8, d: "" },
+        ],
+      },
+      {
+        title: "Nos Jus Frais",
+        note: "Selon la disponibilité des produits de saison",
+        items: [
+          { n: "Citronnade", p: 5, d: "" },
+          { n: "Citronnade boule de glace", p: 7.5, d: "" },
+          { n: "Citronnade aux amandes", p: 8.5, d: "" },
+          { n: "Orange", p: 6, d: "" },
+          { n: "Fraise", p: 9, d: "" },
+          { n: "Fraise boule de glace", p: 8, d: "" },
+          { n: "Banane", p: 9.5, d: "" },
+          { n: "Kiwi", p: 13, d: "" },
+          { n: "Fraise-Banane", p: 13, d: "" },
+          { n: "Kiwi-Banane", p: 13, d: "" },
+          { n: "Mixte fruits", p: 16.8, d: "" },
+        ],
+      },
+      {
+        title: "Nos Chocolats Chauds",
+        items: [
+          { n: "Classique", p: 10, d: "" },
+          { n: "Énergétique", p: 13, d: "À base de boisson énergétique" },
+          { n: "Fruits secs et chantilly", p: 13, d: "" },
+        ],
+      },
+      {
+        title: "Nos Milkshakes",
+        items: [
+          { n: "Chocolat classique", p: 10, d: "" },
+          { n: "Au choix", p: 13, d: "" },
+          { n: "Nutella", p: 15, d: "" },
+          { n: "Oreo", p: 15, d: "" },
+          { n: "Pistache", p: 16, d: "" },
+        ],
+      },
+      {
+        title: "Nos Cafés Glacés",
+        items: [
+          { n: "Classique", p: 9, d: "" },
+          { n: "Affogato", p: 12, d: "Glace vanille et expresso" },
+          { n: "Fraise / Caramel / Vanille / Chocolat", p: 12, d: "" },
+          { n: "Vanille café latte", p: 12, d: "Glace vanille et café latte" },
+          { n: "Moka café latte", p: 12, d: "Glace moka et café latte" },
+          { n: "Liégeois", p: 13, d: "" },
+        ],
+      },
+      {
+        title: "Nos Boissons",
+        items: [
+          { n: "Eau minérale 0,5 L", p: 2, d: "" },
+          { n: "Eau gazéifiée 0,5 L", p: 2, d: "" },
+          { n: "Eau minérale 1 L", p: 3.5, d: "" },
+          { n: "Eau gazéifiée 1 L", p: 3.5, d: "" },
+          { n: "Soda", p: 12, d: "Coca, Fanta, Apla, Boga" },
+          { n: "Boisson énergétique", p: 8, d: "" },
+          { n: "Bière", p: 12, d: "" },
+          { n: "Viennois", p: 12, d: "" },
+        ],
+      },
+    ],
+  },
+];
+
+/* ── Composants ── */
+
+function Ornament({ small }) {
+  const w = small ? 30 : 50;
+  const d = small ? { width: 4, height: 4 } : null;
+  return (
+    <div className="ornament my-4">
+      <div className="ornament-line" style={{ width: w }} />
+      <div className="ornament-diamond" style={d} />
+      <div className="ornament-line" style={{ width: w }} />
+    </div>
+  );
+}
+
+function MenuItemRow({ item }) {
+  if (item.special && item.subs) {
+    return (
+      <div
+        style={{ padding: "20px", marginBlock: "24px" }}
+        className="special-card bg-noir-card border border-gold/15 rounded-xl p-5 sm:p-7 my-6 scroll-reveal"
+      >
+        <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 mb-4">
+          <div className="flex items-center gap-3 flex-wrap">
+            <h3 className="font-display text-xl sm:text-2xl text-gold font-medium">
+              {item.n}
+            </h3>
+            {item.tag && (
+              <span
+                style={{ padding: "4px 8px" }}
+                className="text-[10px] font-body font-semibold tracking-widest uppercase bg-gold/10 text-gold-light px-2.5 py-1 rounded-full border border-gold/20"
+              >
+                {item.tag}
+              </span>
+            )}
+          </div>
+          <span className="font-body text-gold-light font-medium text-lg tracking-wide">
+            {fmt(item.p)}
+          </span>
+        </div>
+        {item.d && (
+          <p
+            style={{ marginBottom: "1.25rem" }}
+            className="text-cream-muted text-sm font-body mb-5 leading-relaxed"
+          >
+            {item.d}
+          </p>
+        )}
+        <div className="space-y-4">
+          {item.subs.map((sub, si) => (
+            <div style={{ paddingTop: "1.5rem" }} key={si}>
+              <p
+                style={{ fontFamily: "Cormorant Garamond, serif" }}
+                className="sub-heading text-gold-dark font-menu text-lg font-semibold mb-2"
+              >
+                {sub.t}
+              </p>
+              <ul style={{ marginTop: "1rem" }} className="space-y-1.5 ml-1">
+                {sub.i.map((line, li) => (
+                  <li
+                    style={{ paddingBlock: "4px" }}
+                    key={li}
+                    className="flex items-start gap-2 text-cream-dark text-sm font-body"
+                  >
+                    <span className="text-gold/40 mt-1.5 text-[6px]">
+                      {/* <i className="fa-solid fa-diamond" /> */}
+                      <Gem size={12} strokeWidth={2} />
+                    </span>
+                    {line}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="menu-row scroll-reveal py-3 border-b border-noir-lighter/60">
+      <div className="flex items-baseline">
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span className="item-name font-menu text-lg sm:text-xl text-cream font-medium transition-colors duration-300 whitespace-nowrap pr-1">
+            {item.n}
+          </span>
+          {item.tag && (
+            <span
+              style={{ padding: "4px 8px" }}
+              className="text-[9px] font-body font-semibold tracking-widest uppercase bg-gold/10 text-gold-light px-2 py-0.5 rounded-full border border-gold/20 shrink-0"
+            >
+              {item.tag}
+            </span>
+          )}
+        </div>
+        <span className="dot-leader" />
+        {item.p != null && (
+          <span className="font-body text-gold font-medium text-sm sm:text-base tracking-wide whitespace-nowrap pl-1">
+            {fmt(item.p)}
+          </span>
+        )}
+      </div>
+      <div className="flex items-center gap-2 flex-wrap mt-1">
+        {item.d && (
+          <p className="text-cream-muted text-xs sm:text-sm font-body leading-relaxed">
+            {item.d}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function SubSection({ sub }) {
+  return (
+    <div style={{ paddingBlock: "12px" }} className="mb-10">
+      <p className="sub-heading text-gold-dark font-menu text-xl sm:text-2xl font-semibold mb-5">
+        {sub.title}
+      </p>
+      {sub.note && (
+        <p className="text-cream-muted text-xs font-body mb-4 italic">
+          {sub.note}
+        </p>
+      )}
+      <div>
+        {sub.items.map((item, i) => (
+          <MenuItemRow key={i} item={item} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MenuSection({ section }) {
+  const hasSubSections = section.subSections && section.subSections.length > 0;
+  const hasItems = section.items && section.items.length > 0;
+  return (
+    <section
+      id={section.id}
+      className="pt-24 pb-12 px-4 sm:px-6 max-w-4xl mx-auto"
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "12px",
+          marginBlock: "40px",
+        }}
+        className="scroll-reveal text-center mb-10"
+      >
+        <div className="flex items-center justify-center gap-3 mb-3">
+          {section.icon}
+        </div>
+        <Ornament small />
+        <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-cream font-medium tracking-wide">
+          {section.title}
+        </h2>
+        <Ornament small />
+        {section.subtitle && (
+          <p className="text-cream-muted text-sm font-body mt-3 max-w-lg mx-auto leading-relaxed">
+            {section.subtitle}
+          </p>
+        )}
+      </div>
+
+      {hasSubSections &&
+        section.subSections.map((sub, i) => <SubSection key={i} sub={sub} />)}
+
+      {hasItems &&
+        section.items.map((item, i) => <MenuItemRow key={i} item={item} />)}
+
+      {section.extraSection && (
+        <div className="mt-12 pt-8 border-t border-gold/10">
+          <SubSection sub={section.extraSection} />
+        </div>
+      )}
+    </section>
+  );
+}
+
+function StickyNav({ sectionIds, activeSection }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = 70;
+      const y = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-150 transition-all duration-500 ${scrolled ? "bg-noir/90 backdrop-blur-xl border-b border-gold/10 shadow-lg shadow-black/30" : "bg-transparent"}`}
+      role="navigation"
+      aria-label="Navigation du menu"
+    >
+      <div
+        className="nav-scroll flex items-center gap-1 sm:gap-2 overflow-x-auto px-4 sm:px-6 py-3 max-w-6xl mx-auto no-scrollbar"
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          padding: "12px 0",
+          width: "100dvw",
+          overflow: "scroll",
+        }}
+      >
+        {sectionIds.map((s) => (
+          <button
+            style={{
+              display: "flex",
+              padding: "12px",
+              gap: "22px",
+              fontFamily: "Inter', sans-serif",
+              fontSize: "14px",
+              fontWeight: 600,
+            }}
+            key={s.id}
+            onClick={() => scrollTo(s.id)}
+            className={`nav-link whitespace-nowrap text-xs sm:text-sm font-body font-medium tracking-wide px-2 sm:px-3 py-1.5 rounded-md transition-colors duration-300 ${activeSection === s.id ? "active text-gold" : "text-cream-muted hover:text-cream"}`}
+            aria-current={activeSection === s.id ? "true" : "false"}
+          >
+            {s.title}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function Hero() {
+  return (
+    <header className="relative min-h-screen flex flex-col items-center justify-center text-center px-4 overflow-hidden">
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 45%, rgba(201,169,110,0.04) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(circle at 20% 80%, rgba(201,169,110,0.02) 0%, transparent 50%)",
+        }}
+      />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-px h-32 bg-linear-to-b from-transparent via-gold/20 to-transparent" />
+      <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-px h-32 bg-linear-to-b from-transparent via-gold/20 to-transparent" />
+
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: "24px" }}
+        className="relative z-10"
+      >
+        <p className="font-body text-cream-muted text-xs sm:text-sm tracking-[0.35em] uppercase mb-6">
+          Restaurant &amp; Brasserie
+        </p>
+        <h1 className="gold-shimmer font-display text-6xl sm:text-8xl lg:text-9xl font-semibold tracking-[0.15em] leading-none mb-6">
+          MY COCOON
+        </h1>
+        <Ornament />
+        <p className="font-body text-cream-dark text-sm sm:text-base tracking-[0.2em] uppercase mb-2">
+          Monastir, Tunisie
+        </p>
+        <p className="font-body text-gold/60 text-xs tracking-[0.3em] uppercase mt-4">
+          Menu 2026
+        </p>
+      </div>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 scroll-indicator">
+        <i className="fa-solid fa-chevron-down text-gold/40 text-sm" />
+      </div>
+    </header>
+  );
+}
+
+function Footer() {
+  return (
+    <footer
+      style={{ marginBlock: "64px 32px" }}
+      className="relative mt-16 border-t border-gold/10"
+    >
+      <div
+        style={{ display: "flex", flexDirection: "column", gap: "14px" }}
+        className="max-w-4xl mx-auto px-4 py-16 text-center"
+      >
+        <Ornament />
+        <p className="font-display text-2xl sm:text-3xl text-cream font-medium tracking-wide mb-3">
+          MY COCOON
+        </p>
+        <p className="font-body text-cream-muted text-sm mb-8">
+          Monastir, Tunisie
+        </p>
+
+        <div className="bg-noir-card border border-gold/15 rounded-xl p-6 sm:p-8 max-w-md mx-auto mb-10">
+          <i className="fa-solid fa-star text-gold text-lg mb-3 block" />
+          <p className="font-display text-lg text-cream font-medium mb-2">
+            Votre avis nous est très précieux
+          </p>
+          <p className="text-cream-muted text-sm font-body mb-5 leading-relaxed">
+            Pour améliorer notre service et qualité
+          </p>
+          <a
+            href="https://www.google.com/search?q=My+Cocoon+Monastir"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-gold/10 hover:bg-gold/20 border border-gold/30 hover:border-gold/50 text-gold-light font-body text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300"
+          >
+            <i className="fa-brands fa-google" />
+            Google My Cocoon Monastir
+          </a>
+        </div>
+
+        <p className="text-cream-muted/40 text-xs font-body">
+          Prix en Dinars Tunisiens — Tous les prix sont indicatifs
+        </p>
+        <p className="text-cream-muted/25 text-[10px] font-body mt-2">
+          &copy; 2026 My Cocoon. Tous droits réservés.
+        </p>
+      </div>
+    </footer>
+  );
+}
+
+export default function App() {
+  const sectionIds = useMemo(
+    () => sections.map((s) => ({ id: s.id, title: s.title })),
+    [],
+  );
+  const [activeSection, setActiveSection] = useState(sections[0].id);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [showBackTop, setShowBackTop] = useState(false);
+
+  // Scroll reveal
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+    );
+    const timer = setTimeout(() => {
+      document
+        .querySelectorAll(".scroll-reveal")
+        .forEach((el) => observer.observe(el));
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, []);
+
+  // Active section tracking
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { threshold: 0.15, rootMargin: "-80px 0px -45% 0px" },
+    );
+    sectionIds.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  // Scroll progress bar + Back to top button
+  useEffect(() => {
+    const onScroll = () => {
+      const height = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = height > 0 ? (window.scrollY / height) * 100 : 0;
+
+      setScrollProgress(progress);
+      setShowBackTop(window.scrollY > 800);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // Hide loader
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const loader = document.getElementById("loader");
+      if (loader) loader.classList.add("hidden");
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div
+      style={{
+        padding: "24px 12px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "0px",
+      }}
+      className="min-h-screen"
+    >
+      <div
+        id="scroll-progress"
+        className="fixed top-0 left-0 h-1 bg-gold `z-[9999]` transition-[width] duration-100"
+        style={{ width: `${scrollProgress}%` }}
+      />
+
+      <Hero />
+      <StickyNav sectionIds={sectionIds} activeSection={activeSection} />
+
+      <main className="relative z-10">
+        {sections.map((section) => (
+          <MenuSection key={section.id} section={section} />
+        ))}
+      </main>
+
+      <Footer />
+
+      <button
+        id="back-top"
+        type="button"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        className={`fixed right-5 bottom-5 z-50 w-11 h-11 rounded-full border border-gold/30 bg-noir-card text-gold shadow-lg shadow-black/30 transition-all duration-300 ${
+          showBackTop
+            ? "opacity-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 translate-y-3 pointer-events-none"
+        }`}
+        aria-label="Retour en haut"
+      >
+        <i className="fa-solid fa-arrow-up" />
+      </button>
+    </div>
+  );
+}
